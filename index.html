@@ -5,12 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Launch hidden settings on KaiOS</title>
     <link rel="stylesheet" href="style.css">
+    <script src="w2d.js"></script>
 </head>
 <body>
     <div>
         <header>
             <h1>Launch hidden settings on KaiOS</h1>
             <p>In order for the buttons on this page to function correctly, you need to open this page in the built-in Browser app on your KaiOS phone.</p>
+            <ul>
+                <li><a href="#w2d-kaios-jailbreak">W2D KaiOS Jailbreak</a></li>
+                <li><a href="#hotspot-for-jiophones">Hotspot for JioPhones</a></li>
+                <li><a href="#turn-on-grayscale-mode-or-change-display-contrast-level">Turn on Grayscale mode or change display contrast level</a></li>
+                <li><a href="#turn-off-flip-open-to-answer">Turn off Flip open to answer</a></li>
+                <li><a href="#readout-not-recommended">Readout (not recommended)</a></li>
+                <li><a href="#connect-to-adb-wirelessly-experimental">Connect to ADB wirelessly (experimental)</a></li>
+                <li><a href="#volte-vowifi-may-not-work">VoLTE/VoWiFi (may not work)</a></li>
+            </ul>
             <p>It's unclear how a page in the Settings app can be hidden on condition. My theory is, when you pop a SIM card into the phone, B2G looks up some information of the carrier and matches a certain ID with one of the default configurations under /system/b2g/defaults/customization/ (see GerdaOS's system and leo's system). If it finds a match, B2G will toggle Device Settings flags based on the JSON values, and decide whether to enable certain features of the phone or not.</p>
             <p>Now, what this does is merely hiding the menus from the Settings app so that normal users cannot access it. But they can still be opened with other means.</p>
             <p>mozActivity on Firefox OS and KaiOS 2.5, and webActivity on KaiOS 3+, is a system-level function which allows applications to share data, view and perform actions across each other. An app can register to handle a mozActivity/webActivity in its manifest.webapp file, and other apps can reference to a registered mozActivity/webActivity to perform actions e.g. sharing photos and videos from Gallery to Messages, or opening a page in the Settings app if the phone isn't connected to the Internet (see Web Activities on KaiOS).</p>
@@ -18,47 +28,47 @@
         </header>
         <main>
             <article>
-                <h2>W2D KaiOS Jailbreak</h2>
+                <h2 id="w2d-kaios-jailbreak">W2D KaiOS Jailbreak</h2>
                 <p>Under Settings, Device, the Developer menu consists of options to turn on ADB and DevTools for debugging purposes, plus a number of graphical debugging tools. On certain production devices this menu is hidden by default. Clicking this button below will attempt to open the menu. Works on both KaiOS 2.5 and KaiOS 3. (W2D: web-to-dev)</p>
                 <p>Once you connect to WebIDE, you can toggle the Device Settings flag <code>developer.menu.enabled</code> to have this menu shown permanently.</p>
-                <button>Open Developer menu</button>
+                <button onclick="openMenu('developer')">Open Developer menu</button>
             </article>
             <article>
-                <h2>Hotspot for JioPhones</h2>
+                <h2 id="hotspot-for-jiophones">Hotspot for JioPhones</h2>
                 <p>Attempt to open Internet sharing menu under Settings, Network & Connectivity, which is hidden on JioPhones and newer, locked HMD/Nokia phones, although the hardware is perfectly capable of doing such thing. Works on both KaiOS 2.5 and KaiOS 3.</p>
                 <p><em>Note: On the latest JioPhone Prima 4G, the phone will appear to open the menu, then redirect to a blank page.</em></p>
-                <button>Open Internet sharing menu</button>
+                <button onclick="openMenu('hotspot')">Open Internet sharing menu</button>
             </article>
             <article>
-                <h2>Turn on Grayscale mode or change display contrast level</h2>
+                <h2 id="turn-on-grayscale-mode-or-change-display-contrast-level">Turn on Grayscale mode or change display contrast level</h2>
                 <p>Clicking the first button attempts to open the incomplete Color Filter menu, where you can set your screen to display black-and-white only or invert all colours. If you want to adjust the contrast level of the screen, click on the second button; Contrast option in the Color Filter menu does not do anything.</p>
                 <p>Use D-Pad Up and Down to increase or decrease the contrast level respectively.</p>
-                <button>Open Color Filter menu</button>
-                <button>Open Contrast menu</button>
+                <button onclick="openMenu('accessibility-colors')">Open Color Filter menu</button>
+                <button onclick="openMenu('colorfilter-contrast')">Open Contrast menu</button>
             </article>
             <article>
-                <h2>Turn off Flip open to answer</h2>
+                <h2 id="turn-off-flip-open-to-answer">Turn off Flip open to answer</h2>
                 <p>On some KaiOS flip or sliding phones, such as the Nokia 8110 4G and Nokia 2720 Flip, opening the phone will automatically answer any incoming calls. Clicking the button below will attempt to open the Answer Mode menu where you can disable that behaviour. On KaiOS 3 flip phones, you can access this menu under <i>Settings, Personalization</i>.</p>
                 <p>Alternatively, you can connect the phone to WebIDE and toggle the Device Settings flag <code>phone.answer.flipopen.enabled</code>.</p>
-                <button>Open Answer Mode menu</button>
+                <button onclick="openMenu('answer-mode')">Open Answer Mode menu</button>
             </article>
             <article>
-                <h2>Readout (not recommended)</h2>
+                <h2 id="readout-not-recommended">Readout (not recommended)</h2>
                 <p>Attempt to open the Readout menu in Settings, where you can toggle KaiOS's in-built screen reader and change its speech rate. Only consider using this feature if you plan to <em>only use default apps</em>; most apps from KaiStore do not properly label their buttons, which makes this feature unusable.</p>
                 <p>On some phones with dedicated volume buttons, you can toggle this feature by repeatedly pressing the side volume buttons Vol+ and Vol-. You can also toggle the Device Settings flag <code>accessibility.screenreader</code> in WebIDE.</p>
-                <button>Open Readout menu</button>
+                <button onclick="openMenu('accessibility-readout-mode')">Open Readout menu</button>
             </article>
             <article>
-                <h2>Connect to ADB wirelessly (experimental)</h2>
+                <h2 id="connect-to-adb-wirelessly-experimental">Connect to ADB wirelessly (experimental)</h2>
                 <p>If you don't have any USB cables nearby, this button below will attempt to open a 5555 port for <code>adbd</code> on your phone, so that you can connect to ADB on your computer over Wi-Fi by typing <code>adb connect [your.phone.ip.address]:5555</code>. For more details, see <a href="https://wiki.bananahackers.net/development/webide">Sideloading and debugging third-party applications</a> on BananaHackers Wiki website.</p>
                 <p>You can find your phone's local IP address (192.168.abc.def) by going to <i>Settings, Network & Connectivity, Wi-Fi, Available networks</i> and select the connected Wi-Fi access point; or download N4NO's <a href="https://www.kaiostech.com/store/apps/?bundle_id=com.n4no.myipaddress">My IP Address</a> from KaiStore.</p>
                 <p>Before clicking this button, make sure both your phone and computer are on the same Wi-Fi network (you can tether to your computer), your phone allows at least one of these three permissions: <code>engmodeExtension</code>, <code>jrdExtension</code>, <code>kaiosExtension</code>, and you have turned on debugging mode on your phone.</p>
-                <button>Set ADB port to 5555</button>
+                <button onclick="wadb()">Set ADB port to 5555</button>
             </article>
             <article>
-                <h2>VoLTE/VoWiFi (may not work)</h2>
+                <h2 id="volte-vowifi-may-not-work">VoLTE/VoWiFi (may not work)</h2>
                 <p>If your network provider doesn't support VoLTE/VoWiFi for your phone, the system may automatically hide the VoLTE/VoWiFi menu from the Network &amp; Connectivity section. Clicking this button will attempt to bring up the menu. Because list items in this menu are not highlighted, you won't be able to select anything.</p>
-                <button>Open VoLTE/VoWiFi menu</button>
+                <button onclick="openMenu('volte-vowifi')">Open VoLTE/VoWiFi menu</button>
             </article>
         </main>
         <footer>
