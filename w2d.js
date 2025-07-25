@@ -74,3 +74,26 @@ function wadb() {
 		window.alert('Failed to set adbd properties. Please try again.');
 	}
 }
+
+function setNotificationRingtone() {
+	var ringPicker = new MozActivity({name: "pick"})
+	ringPicker.onsuccess = function(e) {
+		var ringBlob = this.result.blob, ringBlobProp = 'notification' + '.ringtone',
+			ringIdProp = ringBlobProp + '.id',
+			ringNameProp = ringBlobProp + '.name',
+			setting = {}
+		setting[ringBlobProp] = ringBlob
+		setting[ringIdProp] = 'custom:1'
+		setting[ringNameProp] = this.result.name || 'Untitled'
+		var e = navigator.mozSettings.createLock().set(setting)
+		e.onsuccess = function() {
+			window.alert('Tone set successfully!')
+		}
+		e.onerror = function(e) {
+			window.alert('Error setting the tone: ' + e.name)
+		}
+	}
+	ringPicker.onerror = function(e) {
+		window.alert('Error picking the ringtone: ' + e.name)
+	}
+}
