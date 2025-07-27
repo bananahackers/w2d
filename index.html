@@ -71,8 +71,9 @@
                 <button onclick="openMenu('volte-vowifi')">Open VoLTE/VoWiFi menu</button>
             </article>
             <article>
-                <h2 id="set-notification-tone">Set notification tone</h2>
-                <button onclick="setNotificationRingtone()">Try it!</button>
+                <h2 id="set-notification-tone">Open hidden engineering menu (experimental)</h2>
+                <p>KaiOS 2.5 only. Attempt to open the hidden engineering menu (useful on devices where <code>*#testbox#</code> doesn't work).</p>
+                <button onclick="var a = new MozActivity({name:'engmode'})">Try it!</button>
             </article>
         </main>
         <footer>
